@@ -15,6 +15,10 @@ html {
   justify-content: center;
 }
 
+.form-container {
+  align-items: center;
+  justify-content: center;
+}
 .form-container,
 .edit-box {
   display: flex;

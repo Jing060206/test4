@@ -86,6 +86,7 @@ const View = (() => {
         </li>`;
         template += LiTemplate;
         completelistEl.innerHTML = template;
+        todolistEl.innerHTML = "";
       }
       let LiTemplate = `<li><span>${todo.content}</span>
       <button class="delete-btn" id="${todo.id}">delete</button>
