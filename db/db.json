@@ -1,12 +1,14 @@
 {
   "todos": [
     {
-      "content": "apple",
-      "id": 1
+      "content": "sss",
+      "id": 1,
+      "isComplete": true
     },
     {
-      "content": "ddd",
-      "id": 2
+      "content": "apple",
+      "id": 2,
+      "isComplete": true
     }
   ]
 }

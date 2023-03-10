@@ -14,12 +14,17 @@
         <input class="todo-input" type="text" />
         <button class="submit-btn">add</button>
       </div>
-      <div class="todo-list-container">
-        <ul class="todo-list"></ul>
-      </div>
-      <div class="edit-box" style="display: none">
-        <input type="text" class="edit-input" />
-        <button class="confirm-btn">save</button>
+      <div style="display: flex; gap: 10px">
+        <div class="todo-list-container">
+          <ul class="todo-list"></ul>
+          <div class="edit-box" style="display: none">
+            <input type="text" class="edit-input" />
+            <button class="confirm-btn">save</button>
+          </div>
+        </div>
+        <div class="todo-list-container">
+          <ul class="complete-todo-list"></ul>
+        </div>
       </div>
     </div>
 

@@ -79,6 +79,7 @@ const View = (() => {
       let LiTemplate = `<li><span>${todo.content}</span>
       <button class="delete-btn" id="${todo.id}">delete</button>
       <button class="btn-edit" id="${todo.id}">edit</button>
+      <button class="btn-complete" id="${todo.id}">move</button>
       </li>`;
       template += LiTemplate;
     });
@@ -140,8 +141,6 @@ const Controller = ((view, model) => {
   const handleEdit = () => {
     view.todolistEl.addEventListener("click", (event) => {
       currentTodoId = event.target.id;
-      console.log("hello");
-      console.log(111);
       if (event.target.className === "btn-edit") {
         view.editBox.style.display = "flex";
       }
@@ -149,6 +148,14 @@ const Controller = ((view, model) => {
   };
 
   const handleSave = () => {
+    view.todolistEl.addEventListener("click", (event) => {
+      if (event.target.className === "delete-btn") {
+        const id = event.target.id;
+        model.deleteTodo(+id).then((date) => {
+          state.todos = state.todos.filter((todo) => todo.id !== +id);
+        });
+      }
+    });
     view.confirmEditBtn.addEventListener("click", (event) => {
       model
         .updateTodo(currentTodoId, { content: View.editInput.value })
@@ -158,12 +165,24 @@ const Controller = ((view, model) => {
     });
   };
 
+  const handleComplete = () => {
+    view.todolistEl.addEventListener("click", (event) => {
+      if (event.target.className === "btn-complete") {
+        const id = event.target.id;
+        model.updateTodo(id, { isComplete: true }).then((data) => {
+          state.todos = [data, ...state.todos];
+        });
+      }
+    });
+  };
+
   const bootstrap = () => {
     init();
     handleSubmit();
     handleDelete();
     handleEdit();
     handleSave();
+    handleComplete();
     state.subscribe(() => {
       view.renderTodos(state.todos);
     });
