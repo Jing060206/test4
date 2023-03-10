@@ -67,6 +67,7 @@ const Model = (() => {
 
 const View = (() => {
   const todolistEl = document.querySelector(".todo-list");
+  const completelistEl = document.querySelector(".complete-todo-list");
   const submitBtnEl = document.querySelector(".submit-btn");
   const inputEl = document.querySelector(".todo-input");
   const editBox = document.querySelector(".edit-box");
@@ -76,6 +77,16 @@ const View = (() => {
   const renderTodos = (todos) => {
     let template = "";
     todos.forEach((todo) => {
+      if (todo.isComplete) {
+        let LiTemplate = `<li>
+        <button class="btn-uncomplete" id="${todo.id}">pending</button><span>${todo.content}</span>
+        <button class="delete-btn" id="${todo.id}">delete</button>
+        <button class="btn-edit" id="${todo.id}">edit</button>
+        
+        </li>`;
+        template += LiTemplate;
+        completelistEl.innerHTML = template;
+      }
       let LiTemplate = `<li><span>${todo.content}</span>
       <button class="delete-btn" id="${todo.id}">delete</button>
       <button class="btn-edit" id="${todo.id}">edit</button>
@@ -99,6 +110,7 @@ const View = (() => {
     inputEl,
     clearInput,
     todolistEl,
+    completelistEl,
     editBox,
     editInput,
     confirmEditBtn,
@@ -161,6 +173,7 @@ const Controller = ((view, model) => {
         .updateTodo(currentTodoId, { content: View.editInput.value })
         .then((data) => {
           state.todos = [data, ...state.todos];
+          view.clearInput();
         });
     });
   };
@@ -175,6 +188,16 @@ const Controller = ((view, model) => {
       }
     });
   };
+  const handlePending = () => {
+    view.completelistEl.addEventListener("click", (event) => {
+      if (event.target.className === "btn-uncomplete") {
+        const id = event.target.id;
+        model.updateTodo(id, { isComplete: false }).then((data) => {
+          state.todos = [data, ...state.todos];
+        });
+      }
+    });
+  };
 
   const bootstrap = () => {
     init();
@@ -183,6 +206,7 @@ const Controller = ((view, model) => {
     handleEdit();
     handleSave();
     handleComplete();
+    handlePending();
     state.subscribe(() => {
       view.renderTodos(state.todos);
     });
