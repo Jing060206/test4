@@ -75,30 +75,32 @@ const View = (() => {
   const confirmEditBtn = document.querySelector(".confirm-btn");
 
   const renderTodos = (todos) => {
-    let template = "";
+    let todosTemplate = "";
+    let completedTemplate = "";
     todos.forEach((todo) => {
-      if (todo.isComplete) {
-        let LiTemplate = `<li>
+      if (todo.isComplete === true) {
+        const liTemplate = `<li>
         <button class="btn-uncomplete" id="${todo.id}">pending</button><span>${todo.content}</span>
         <button class="delete-btn" id="${todo.id}">delete</button>
         <button class="btn-edit" id="${todo.id}">edit</button>
         
         </li>`;
-        template += LiTemplate;
-        completelistEl.innerHTML = template;
-        todolistEl.innerHTML = "";
+        completedTemplate += liTemplate;
+      } else {
+        const liTemplate = `<li><span>${todo.content}</span>
+        <button class="delete-btn" id="${todo.id}">delete</button>
+        <button class="btn-edit" id="${todo.id}">edit</button>
+        <button class="btn-complete" id="${todo.id}">move</button>
+        </li>`;
+        todosTemplate += liTemplate;
       }
-      let LiTemplate = `<li><span>${todo.content}</span>
-      <button class="delete-btn" id="${todo.id}">delete</button>
-      <button class="btn-edit" id="${todo.id}">edit</button>
-      <button class="btn-complete" id="${todo.id}">move</button>
-      </li>`;
-      template += LiTemplate;
     });
     if (todos.length === 0) {
-      template = "<h4>no task to display!</h4>";
+      todosTemplate = "<h4>no task to display!</h4>";
     }
-    todolistEl.innerHTML = template;
+
+    todolistEl.innerHTML = todosTemplate;
+    completelistEl.innerHTML = completedTemplate;
   };
 
   const clearInput = () => {
